@@ -1,3 +1,14 @@
+Modify for using on Sina App Engine(SAE)
+======================
+Base on X-editable 1.3.1, suppose X-editable is placed directly under /assets
+
+update select2 to 3.5.1
+
+add localization for Chinese Simplified(zh-CN) to
++ X-editable
++ bootstrap-editable datepicker
++ select2 
+
 X-editable for Yii
 ======================
 

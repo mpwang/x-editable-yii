@@ -539,6 +539,10 @@ class Editable extends CWidget
         // bootstrap
         if($form === EditableConfig::FORM_BOOTSTRAP) {
             if (($bootstrap = yii::app()->getComponent('bootstrap'))) {
+                if(defined('SAE_TMP_PATH')) {
+                    // use static folder for register bootstrap files
+                    $bootstrap->_assetsUrl = '/assets/bootstrap/assets';
+                }
                 $bootstrap->registerCoreCss();
                 $bootstrap->registerCoreScripts();
             } else {
@@ -546,6 +550,9 @@ class Editable extends CWidget
             }
 
             $assetsUrl = $am->publish(Yii::getPathOfAlias('editable.assets.bootstrap-editable'));
+            if(defined('SAE_TMP_PATH')) {
+                $assetsUrl = '/assets/x-editable/assets/bootstrap-editable';
+            }
             $js = 'bootstrap-editable.js';
             $css = 'bootstrap-editable.css';
         // jqueryui
@@ -558,17 +565,26 @@ class Editable extends CWidget
             $this->registerJQueryUI();
 
             $assetsUrl = $am->publish(Yii::getPathOfAlias('editable.assets.jqueryui-editable'));
+            if(defined('SAE_TMP_PATH')) {
+                $assetsUrl = '/assets/x-editable/assets/jqueryui-editable';
+            }
             $js = 'jqueryui-editable.js';
             $css = 'jqueryui-editable.css';
         // plain jQuery
         } else {
             $assetsUrl = $am->publish(Yii::getPathOfAlias('editable.assets.jquery-editable'));
+            if(defined('SAE_TMP_PATH')) {
+                $assetsUrl = '/assets/x-editable/assets/jquery-editable';
+            }
             $js = 'jquery-editable-poshytip.js';
             $css = 'jquery-editable.css';
 
             //publish & register poshytip for popup version
             if($mode === EditableConfig::POPUP) {
                 $poshytipUrl = $am->publish(Yii::getPathOfAlias('editable.assets.poshytip'));
+                if(defined('SAE_TMP_PATH')) {
+                    $poshytipUrl = '/assets/x-editable/assets/poshytip';
+                }
                 $cs->registerScriptFile($poshytipUrl . '/jquery.poshytip.js');
                 $cs->registerCssFile($poshytipUrl . '/tip-yellowsimple/tip-yellowsimple.css');
             }
@@ -586,23 +602,35 @@ class Editable extends CWidget
         //include moment.js for combodate 
         if($this->type == 'combodate') {
             $momentUrl = $am->publish(Yii::getPathOfAlias('editable.assets.moment'));
-            $cs->registerScriptFile($momentUrl.'/moment.min.js');          
+            if(defined('SAE_TMP_PATH')) {
+                $momentUrl = '/assets/x-editable/assets/moment';
+            }
+            $cs->registerScriptFile($momentUrl.'/moment.min.js');
         }
-        
+
         //include select2 lib for select2 type
         if($this->type == 'select2') {
             $select2Url = $am->publish(Yii::getPathOfAlias('editable.assets.select2'));
-            $cs->registerScriptFile($select2Url.'/select2.min.js');  
-            $cs->registerCssFile($select2Url.'/select2.css');        
+            if(defined('SAE_TMP_PATH')) {
+                $select2Url = '/assets/x-editable/assets/select2';
+            }
+            $cs->registerScriptFile($select2Url.'/select2.min.js');
+            $cs->registerScriptFile($select2Url.'/select2_locale_zh-CN.js');
+            $cs->registerCssFile($select2Url.'/select2.css');
         }  
         
+
         //include bootstrap-datetimepicker
         if($this->type == 'datetime') {
             $url = $am->publish(Yii::getPathOfAlias('editable.assets.bootstrap-datetimepicker'));
-            $cs->registerScriptFile($url.'/js/bootstrap-datetimepicker.js');  
+            if(defined('SAE_TMP_PATH')) {
+                $url = '/assets/x-editable/assets/bootstrap-datetimepicker';
+            }
+            $cs->registerScriptFile($url.'/js/bootstrap-datetimepicker.js');
             $cs->registerCssFile($url.'/css/datetimepicker.css');        
         }               
         
+
         //TODO: include locale for datepicker
         //may be do it manually?
         /*
